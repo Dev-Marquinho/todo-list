@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            background-color: black;
+            color: wheat;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minha Lista de Tarefas</h1>
+
+    <input id="tarefa" type="text" placeholder="Digite uma tarefa">
+
+    <button  id="adicionar">
+        Adicionar
+    </button>
+
+    <ul id="lista"></ul>
+
+    <script>
+        const caixa = document.getElementById("tarefa")
+        const botao = document.getElementById("adicionar")
+        const agenda = document.getElementById("lista")
+        let saves = [];
+        const tarefasSalvas = JSON.parse(
+                localStorage.getItem("tarefas")
+            );
+
+        if (tarefasSalvas) {
+            saves = tarefasSalvas
+        };
+
+        
+        saves.forEach(function(tarefa) {
+        const item = document.createElement("li");
+        const remove = document.createElement("button");
+
+        item.textContent = tarefa;
+        remove.textContent = "❌";
+
+        agenda.appendChild(item);
+        item.appendChild(remove);
+
+        remove.addEventListener("click", function() {
+        item.remove();
+    });
+});
+    botao.addEventListener("click", function() {
+        if (caixa.value === "") {
+            console.log("parou aqui")
+            return;
+        }
+            const item = document.createElement("li");
+            const remove = document.createElement("button");
+          
+            saves.push(caixa.value);
+            localStorage.setItem(
+                "tarefas", JSON.stringify(saves)
+            );
+
+            item.textContent = caixa.value;
+            remove.textContent = "❌"
+            agenda.appendChild(item);
+            item.appendChild(remove);
+            remove.addEventListener("click", function() {
+                item.remove();
+            })
+
+            
+            
+            caixa.value = "";
+    })
+    </script>
+</body>
+</html>
